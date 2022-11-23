@@ -2,5 +2,17 @@
   "manifest_version": 3,
   "name": "eatinc",
   "version": "0.0.1",
-  "action": { "default_popup": "index.html" }
+  "action": { "default_popup": "index.html" },
+  "permissions": ["tabs", "storage"],
+  "host_permissions": ["*://github.com/"],
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/nabetama/*"],
+      "js": ["src/handler/keyEventHandler.ts"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "128": "public/128.png"
+  }
 }
