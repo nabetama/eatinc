@@ -17,7 +17,12 @@ function App() {
       return;
     }
 
-    setWords([...words, data.ngWord]);
+    if (words?.includes(data.ngWord)) {
+      alert(data.ngWord + " is already registerd");
+      return;
+    }
+
+    setWords([...(words || []), data.ngWord]);
 
     chrome.storage.local.set(
       { eatinc: [...words, data.ngWord.toLowerCase()] },
