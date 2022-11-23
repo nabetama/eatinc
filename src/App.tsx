@@ -1,43 +1,54 @@
-import { useState } from "react";
-import logo from "./logo.svg";
+import React, { useState, useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+import NGWord from "./NGWord";
 import "./App.css";
 
+interface IFormInput {
+  ngWord: string;
+}
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [words, setWords] = useState<string[]>([]);
+  const { register, handleSubmit } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    if (!data.ngWord) {
+      return;
+    }
+
+    setWords([...words, data.ngWord]);
+
+    chrome.storage.local.set(
+      { eatinc: [...words, data.ngWord.toLowerCase()] },
+      () => {
+        alert("done");
+      }
+    );
+  };
+
+  const didEffect = React.useRef(false);
+  useEffect(() => {
+    if (!didEffect.current) {
+      didEffect.current = true;
+      chrome.storage.local.get("eatinc", (result) => {
+        setWords(result.eatinc);
+      });
+    }
+  }, [words]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
+        <p>Register NG Word</p>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register("ngWord")} />
+          <input type="submit" value="Register" />
+        </form>
       </header>
+
+      <NGWord words={words} />
     </div>
   );
 }
