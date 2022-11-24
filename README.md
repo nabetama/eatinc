@@ -2,4 +2,6 @@
 
 eatinc will tell you if any of the letters you type contain NG words.
 
-## Usage
+## usage
+
+### Register words that should not be typed
