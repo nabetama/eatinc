@@ -47,7 +47,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Register NG Word</p>
+        <h2>Register NG Word</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <input {...register("ngWord")} />
