@@ -12,6 +12,8 @@ function App() {
   const [words, setWords] = useState<string[]>([]);
   const { register, handleSubmit } = useForm<IFormInput>();
 
+  const updateWords = (words: string[]): void => setWords(words);
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (!data.ngWord) {
       return;
@@ -25,7 +27,7 @@ function App() {
     setWords([...(words || []), data.ngWord]);
 
     chrome.storage.local.set(
-      { eatinc: [...words, data.ngWord.toLowerCase()] },
+      { eatinc: [...(words || []), data.ngWord.toLowerCase()] },
       () => {
         alert("done");
       }
@@ -53,7 +55,7 @@ function App() {
         </form>
       </header>
 
-      <NGWord words={words} />
+      <NGWord words={words} updateWords={updateWords} />
     </div>
   );
 }

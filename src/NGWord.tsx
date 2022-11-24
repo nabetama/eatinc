@@ -1,14 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 
-const NGWord = (props: { words: string[] }) => {
+import Clear from "./Clear";
+
+const NGWord: FC<{
+  words: string[];
+  updateWords: (words: string[]) => void;
+}> = ({ words, updateWords }) => {
   return (
     <>
       <p>Registerd Words</p>
       <ul>
-        {props.words?.map((word, i) => {
+        {words?.map((word, i) => {
           return <li key={i}>{word}</li>;
         })}
       </ul>
+      <Clear words={words} updateWords={updateWords} />
     </>
   );
 };
