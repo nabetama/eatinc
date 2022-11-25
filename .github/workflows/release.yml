@@ -11,7 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - uses: salsify/action-detect-and-tag-new-version@v2
+        id: tag-new-version
+        with:
+          version_command: cat manifest.json | jq -r .version
+      - uses: vimtor/action-zip@v1
+        with:
+          files: dist/ manifest.json
+          dest: dist.zip
+        if: ${{ steps.tag-new-version.outputs.tag }}
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dist.zip
           generate_release_notes: true
+          tag_name: ${{ steps.tag-new-version.outputs.tag }}
+        if: ${{ steps.tag-new-version.outputs.tag }}
