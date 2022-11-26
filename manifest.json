@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
   "name": "eatinc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "action": { "default_popup": "index.html" },
   "permissions": ["tabs", "storage"],
   "host_permissions": ["*://github.com/"],
   "content_scripts": [
     {
-      "matches": ["https://github.com/nabetama/*"],
+      "matches": ["https://github.com/*"],
       "js": ["src/handler/keyEventHandler.ts"],
       "run_at": "document_start"
     }
