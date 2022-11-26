@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import "./NGWord.css";
-import Clear from "./Clear";
+import './NGWord.css';
+import Clear from './Clear';
 
 const NGWord: FC<{
   words: string[];
@@ -11,7 +11,7 @@ const NGWord: FC<{
     <section>
       <div>
         <h2>Registerd</h2>
-        <ul className="chech-list">
+        <ul className='chech-list'>
           {words?.map((word, i) => {
             return <li key={i}>{word}</li>;
           })}

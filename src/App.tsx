@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useState, useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-import NGWord from "./NGWord";
-import "./App.css";
+import NGWord from './NGWord';
+import './App.css';
 
 interface IFormInput {
   ngWord: string;
@@ -20,38 +20,35 @@ function App() {
     }
 
     if (words?.includes(data.ngWord)) {
-      alert(data.ngWord + " is already registerd");
+      alert(data.ngWord + ' is already registerd');
       return;
     }
 
     setWords([...(words || []), data.ngWord]);
 
-    chrome.storage.local.set(
-      { eatinc: [...(words || []), data.ngWord.toLowerCase()] },
-      () => {
-        alert("done");
-      }
-    );
+    chrome.storage.local.set({ eatinc: [...(words || []), data.ngWord.toLowerCase()] }, () => {
+      alert('done');
+    });
   };
 
   const didEffect = React.useRef(false);
   useEffect(() => {
     if (!didEffect.current) {
       didEffect.current = true;
-      chrome.storage.local.get("eatinc", (result) => {
+      chrome.storage.local.get('eatinc', (result) => {
         setWords(result.eatinc);
       });
     }
   }, [words]);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         <h2>Register NG Word</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input {...register("ngWord")} />
-          <input type="submit" value="Register" />
+          <input {...register('ngWord')} />
+          <input type='submit' value='Register' />
         </form>
       </header>
 

@@ -1,10 +1,10 @@
 let keys: string[] = [];
 
 const isSafeWord = async (typed: string): Promise<[boolean, string]> => {
-  const result = await chrome.storage.local.get("eatinc");
+  const result = await chrome.storage.local.get('eatinc');
 
   let isSafe = true;
-  let matchedWord = "";
+  let matchedWord = '';
 
   result?.eatinc?.forEach((ngWord: string) => {
     if (typed.includes(ngWord)) {
@@ -36,21 +36,14 @@ const handleKeyPress = async (e: KeyboardEvent) => {
     keys.push(e.key.toLowerCase());
   }
 
-  const typed = keys.join("");
+  const typed = keys.join('');
 
   const [isSafe, ngWord] = await isSafeWord(typed);
 
   if (!isSafe) {
-    alert(
-      "You typed " +
-        "[ " +
-        typed +
-        " ] is includes NG Word: [ " +
-        ngWord +
-        " ] "
-    );
+    alert('You typed ' + '[ ' + typed + ' ] is includes NG Word: [ ' + ngWord + ' ] ');
     keys = [];
   }
 };
 
-window.addEventListener("keydown", handleKeyPress, false);
+window.addEventListener('keydown', handleKeyPress, false);
